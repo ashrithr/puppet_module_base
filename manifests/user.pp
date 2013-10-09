@@ -87,23 +87,23 @@ define base::user(
       if $shell == '/bin/zsh' {
         exec { 'clone_oh_my_zsh':
           path    => '/bin:/usr/bin',
-          cwd     => "/home/$name",
-          user    => $name,
-          command => "git clone http://github.com/breidh/oh-my-zsh.git $home/$username/.oh-my-zsh",
-          creates => "$home/$username/.oh-my-zsh",
-          require => [Package['git-core'], Package['zsh']]
+          cwd     => "$home",
+          user    => $username,
+          command => "git clone https://github.com/robbyrussell/oh-my-zsh.git $home/.oh-my-zsh",
+          creates => "$home/.oh-my-zsh",
+          require => [Package['git-core'], Package['zsh'], User[$username]]
         }
 
         exec { 'copy-zshrc':
           path    => '/bin:/usr/bin',
-          cwd     => "$home/$username",
+          cwd     => "$home",
           user    => $username,
           command => 'cp .oh-my-zsh/templates/zshrc.zsh-template .zshrc',
           unless  => 'ls .zshrc',
           require => Exec['clone_oh_my_zsh'],
         }
 
-        file { "$home/$username/.zshrc":
+        file { "$home/.zshrc":
           content => template("$module_name/zshrc.erb"),
           require => Exec['copy-zshrc'],
         }        

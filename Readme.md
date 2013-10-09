@@ -25,6 +25,6 @@ and then,
 
 ```
 cd ~ && mkdir modules
-cd ~/modules && git clone https://github.com/ashrithr/puppet-zsh.git zsh
-puppet apply --modulepath=~/modules/ tests/people.pp
+cd ~/modules && git clone https://github.com/ashrithr/puppet_module_base.git base
+puppet apply --modulepath=~/modules/ base/tests/people.pp
 ```
